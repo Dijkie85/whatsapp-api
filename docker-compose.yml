@@ -1,15 +1,21 @@
 services:
-  whatsapp_go:
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "200k"
-        max-file: "10"
-    build:
-      context: .
-      dockerfile: ./docker/golang.Dockerfile
-    restart: "on-failure"
+  whatsapp:
+    image: aldinokemal2104/go-whatsapp-web-multidevice
+#    build:
+#      context: .
+#      dockerfile: ./docker/golang.Dockerfile
+    container_name: whatsapp
+    restart: always
     ports:
-      - "3000:3000"
-    env_file:
-      - src/.env
+      - ":3000"
+    volumes:
+      - whatsapp:/app/storages
+    command:
+      - --basic-auth=admin:admin
+      - --port=3000
+      - --debug=true
+      - --os=EmpatIA
+      - --account-validation=false
+
+volumes:
+  whatsapp:
